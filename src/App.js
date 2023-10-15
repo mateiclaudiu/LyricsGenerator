@@ -75,7 +75,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <h1>Biserica Elim Antwerpen</h1>
-                <h2>Generator de Versuri</h2>
+                <h2>Generator de Prezentatii</h2>
                 <textarea
                     value={text}
                     onChange={handleChange}
