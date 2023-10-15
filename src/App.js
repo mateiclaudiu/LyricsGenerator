@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import PowerPointExport from "./PowerpointExport";
 
 function App() {
     const [text, setText] = useState('');
@@ -74,17 +75,19 @@ function App() {
             <header className="App-header">
                 <h1>Biserica Elim Antwerpen</h1>
                 <h2>Generator de Versuri</h2>
-        <textarea
-            value={text}
-            onChange={handleChange}
-            placeholder="Paste your lyrics here"
-            rows="10"
-            style={{ width: '80%', marginBottom: '20px' }}
-        />
+                <textarea
+                    value={text}
+                    onChange={handleChange}
+                    placeholder="Paste your lyrics here"
+                    rows="10"
+                    style={{ width: '80%', marginBottom: '20px' }}
+                />
                 <button onClick={handleStartPresentation}>Start Presentation</button>
                 <br/>
                 <button onClick={handlePrevSlide}>Previous</button>
                 <button onClick={handleNextSlide}>Next</button>
+                <br/>
+                <PowerPointExport text={text} /> {/* Here we are passing the raw text */}
             </header>
         </div>
     );
