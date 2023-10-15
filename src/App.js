@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import PowerPointExport from "./PowerpointExport";
 import Footer from "./Footer";
@@ -56,18 +56,18 @@ function App() {
         newWindow.slides = slides;
 
         // Trigger the initial display of the first slide
-        newWindow.postMessage({ type: 'goToSlide', index: 0 }, '*');
+        newWindow.postMessage({type: 'goToSlide', index: 0}, '*');
     };
 
     const handleNextSlide = () => {
         if (presentationWindow) {
-            presentationWindow.postMessage({ type: 'changeSlide', direction: 'next' }, '*');
+            presentationWindow.postMessage({type: 'changeSlide', direction: 'next'}, '*');
         }
     };
 
     const handlePrevSlide = () => {
         if (presentationWindow) {
-            presentationWindow.postMessage({ type: 'changeSlide', direction: 'prev' }, '*');
+            presentationWindow.postMessage({type: 'changeSlide', direction: 'prev'}, '*');
         }
     };
 
@@ -81,14 +81,14 @@ function App() {
                     onChange={handleChange}
                     placeholder="Paste your lyrics here"
                     rows="10"
-                    style={{ width: '80%', marginBottom: '20px' }}
+                    style={{width: '80%', marginBottom: '20px'}}
                 />
-                <button onClick={handleStartPresentation}>Start Presentation</button>
+                <button disabled={!text} onClick={handleStartPresentation}>Start Presentation</button>
                 <br/>
-                <button onClick={handlePrevSlide}>Previous</button>
-                <button onClick={handleNextSlide}>Next</button>
+                <button disabled={!text} onClick={handlePrevSlide}>Previous</button>
+                <button disabled={!text} onClick={handleNextSlide}>Next</button>
                 <br/>
-                <PowerPointExport text={text} /> {/* Here we are passing the raw text */}
+                <PowerPointExport text={text}/> {/* Here we are passing the raw text */}
             </header>
             <Footer/>
         </div>

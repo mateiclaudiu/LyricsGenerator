@@ -1,7 +1,7 @@
 import React from 'react';
 import PptxGenJS from 'pptxgenjs';
 
-const PowerPointExport = ({ text }) => {
+const PowerPointExport = ({text}) => {
     const exportToPowerpoint = () => {
         if (!text.trim()) {
             console.error('No text provided for the export.');
@@ -15,14 +15,14 @@ const PowerPointExport = ({ text }) => {
         pptx.defineSlideMaster({
             title: 'LYRIC_SLIDE',
             objects: [
-                { 'rect': { x: 0.0, y: 0.0, w: '100%', h: '100%', fill: '000000' } }, // black background
+                {'rect': {x: 0.0, y: 0.0, w: '100%', h: '100%', fill: '000000'}}, // black background
             ],
-            slideNumber: { color: 'FFFFFF' }, // white slide number, if used
+            slideNumber: {color: 'FFFFFF'}, // white slide number, if used
         });
 
         slidesContent.forEach((slideText) => {
             // Use the master layout for the slides
-            const slide = pptx.addSlide({ masterName: 'LYRIC_SLIDE' });
+            const slide = pptx.addSlide({masterName: 'LYRIC_SLIDE'});
 
             // Here, we'll implement a basic strategy to estimate the best font size.
             // This strategy is simplistic and you might need a more complex one based on actual text metrics.
@@ -49,16 +49,16 @@ const PowerPointExport = ({ text }) => {
                     align: 'center', // horizontally center-aligned
                     valign: 'middle', // vertically middle-aligned
                     isTextBox: true, // specifies that it's a text box, allowing for background formatting, etc.
-                    autoFit: { multiLine: true, size: false, shrinkText: false, verticalAlign: 'middle', wrap: true }, // enables the auto-fit feature
+                    autoFit: {multiLine: true, size: false, shrinkText: false, verticalAlign: 'middle', wrap: true}, // enables the auto-fit feature
                 }
             );
         });
 
-        pptx.writeFile({ fileName: 'LyricsPresentation.pptx' });
+        pptx.writeFile({fileName: 'LyricsPresentation.pptx'});
     };
 
     return (
-        <button onClick={exportToPowerpoint}>
+        <button disabled={!text} onClick={exportToPowerpoint}>
             Export to PowerPoint
         </button>
     );
