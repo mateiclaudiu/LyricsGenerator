@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import PowerPointExport from "./PowerpointExport";
+import Footer from "./Footer";
 
 function App() {
     const [text, setText] = useState('');
@@ -89,6 +90,7 @@ function App() {
                 <br/>
                 <PowerPointExport text={text} /> {/* Here we are passing the raw text */}
             </header>
+            <Footer/>
         </div>
     );
 }
