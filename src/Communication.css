@@ -1,0 +1,44 @@
+.music-controls,
+.camera-controls,
+.stage-controls,
+.lyrics-container {
+    margin-bottom: 1rem;
+}
+
+button {
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.messages {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+}
+
+.message {
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+}

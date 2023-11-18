@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import PowerPointExport from "./PowerpointExport";
 import Footer from "./Footer";
+import Communication from "./Communication";
 
 function App() {
     const [text, setText] = useState('');
@@ -12,62 +13,67 @@ function App() {
     };
 
     const handleStartPresentation = () => {
-        // Split the text into slides, each separated by a double newline
         const slides = text.split('\n\n').map((slideText, index) => ({
             id: index,
-            content: slideText.split('\n').join('<br/>')  // Convert newlines to <br> for HTML rendering
+            content: slideText.replace(/\n/g, '<br/>') // Convert newlines to <br> for HTML rendering
         }));
 
-        // Open a new tab for the presentation
-        const newWindow = window.open();
+        const newWindow = window.open('', '_blank');
         setPresentationWindow(newWindow);
 
         // Set up the initial HTML for the presentation
-        newWindow.document.open();
         newWindow.document.write(`
-      <html>
-        <head><title>Presentation</title></head>
-        <body style="background-color: black; color: white; font-size: 4.3vw; text-align: center;">
-          <div id="presentation" style="padding: 50px;"></div>
-          <script>
-            // Inline script to handle messages from the control tab
-            let currentSlideIndex = 0;
-            window.addEventListener('message', (event) => {
-              if (event.data.type === 'goToSlide') {
-                const slide = window.slides[event.data.index];
-                document.getElementById('presentation').innerHTML = slide.content;
-                currentSlideIndex = event.data.index; // Save the current slide index
-              } else if (event.data.type === 'changeSlide') {
-                if (event.data.direction === 'next' && currentSlideIndex < window.slides.length - 1) {
-                  currentSlideIndex++;
-                } else if (event.data.direction === 'prev' && currentSlideIndex > 0) {
-                  currentSlideIndex--;
-                }
-                document.getElementById('presentation').innerHTML = window.slides[currentSlideIndex].content;
-              }
-            });
-          </script>
-        </body>
-      </html>
-    `);
+            <html>
+                <head><title>Presentation</title></head>
+                <body style="background-color: black; color: white; text-align: center; margin: 0; overflow: hidden;">
+                    <div id="presentation" style="display: flex; align-items: center; justify-content: center; height: 100vh;"></div>
+                </body>
+            </html>
+        `);
         newWindow.document.close();
 
-        // Pass the slides to the new tab
+        // Pass the slides to the new window
         newWindow.slides = slides;
+        newWindow.currentSlideIndex = 0;
 
-        // Trigger the initial display of the first slide
-        newWindow.postMessage({type: 'goToSlide', index: 0}, '*');
+        // Function to display the current slide
+        newWindow.showSlide = function (index) {
+            const slide = newWindow.slides[index];
+            const presentationDiv = newWindow.document.getElementById('presentation');
+            presentationDiv.innerHTML = slide.content;
+            newWindow.currentSlideIndex = index;
+        };
+
+        // Resize function to fit text on the screen
+        newWindow.resizeTextToFit = function () {
+            const presentationDiv = newWindow.document.getElementById('presentation');
+            let fontSize = 100; // Start with a large font size
+            presentationDiv.style.fontSize = `${fontSize}px`;
+
+            // Reduce the font size if the content overflows the viewport height
+            while (fontSize > 0 && (presentationDiv.scrollHeight > newWindow.innerHeight || presentationDiv.scrollWidth > newWindow.innerWidth)) {
+                fontSize--;
+                presentationDiv.style.fontSize = `${fontSize}px`;
+            }
+        };
+
+        // Add an event listener for resizing
+        newWindow.onresize = newWindow.resizeTextToFit;
+
+        // Initial call to display the first slide and resize text
+        newWindow.showSlide(newWindow.currentSlideIndex);
+        newWindow.resizeTextToFit();
     };
 
     const handleNextSlide = () => {
-        if (presentationWindow) {
-            presentationWindow.postMessage({type: 'changeSlide', direction: 'next'}, '*');
+        if (presentationWindow && presentationWindow.currentSlideIndex < presentationWindow.slides.length - 1) {
+            presentationWindow.showSlide(presentationWindow.currentSlideIndex + 1);
         }
     };
 
     const handlePrevSlide = () => {
-        if (presentationWindow) {
-            presentationWindow.postMessage({type: 'changeSlide', direction: 'prev'}, '*');
+        if (presentationWindow && presentationWindow.currentSlideIndex > 0) {
+            presentationWindow.showSlide(presentationWindow.currentSlideIndex - 1);
         }
     };
 
@@ -75,22 +81,26 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <h1>Biserica Elim Antwerpen</h1>
-                <h2>Generator de Prezentatii</h2>
+                <h2>Presentations Generator</h2>
+                <div style={{ fontSize: '12pt', fontFamily: 'monospace' }}>
+                    <p>Paragraph break = new slide.</p>
+                    <p>Enjoy and God bless you.</p>
+                </div>
                 <textarea
                     value={text}
                     onChange={handleChange}
                     placeholder="Paste your lyrics here"
                     rows="10"
-                    style={{width: '80%', marginBottom: '20px'}}
+                    style={{ width: '80%', marginBottom: '20px' }}
                 />
                 <button disabled={!text} onClick={handleStartPresentation}>Start Presentation</button>
-                <br/>
+                <br />
                 <button disabled={!text} onClick={handlePrevSlide}>Previous</button>
                 <button disabled={!text} onClick={handleNextSlide}>Next</button>
-                <br/>
-                <PowerPointExport text={text}/> {/* Here we are passing the raw text */}
+                <br />
+                <PowerPointExport text={text} />
             </header>
-            <Footer/>
+            <Footer />
         </div>
     );
 }
