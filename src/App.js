@@ -42,12 +42,13 @@ function App() {
             const presentationDiv = newWindow.document.getElementById('presentation');
             presentationDiv.innerHTML = slide.content;
             newWindow.currentSlideIndex = index;
+            newWindow.resizeTextToFit();
         };
 
         // Resize function to fit text on the screen
         newWindow.resizeTextToFit = function () {
             const presentationDiv = newWindow.document.getElementById('presentation');
-            let fontSize = 100; // Start with a large font size
+            let fontSize = 300; // Start with a large font size
             presentationDiv.style.fontSize = `${fontSize}px`;
 
             // Reduce the font size if the content overflows the viewport height
