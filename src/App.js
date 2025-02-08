@@ -78,30 +78,42 @@ function App() {
         }
     };
 
+    function slidesControl() {
+        return <>
+            <button disabled={!text} onClick={handleStartPresentation}>Start Presentation</button>
+            <br/>
+            <button disabled={!text} onClick={handlePrevSlide}>{'<- Previous'}</button>
+            <button disabled={!text} onClick={handleNextSlide}>{'Next ->'}</button>
+            <br/>
+            <PowerPointExport text={text}/>
+        </>;
+    }
+
     return (
         <div className="App">
             <header className="App-header">
-                <h1>Biserica Elim Antwerpen</h1>
-                <h2>Presentations Generator</h2>
-                <div style={{ fontSize: '12pt', fontFamily: 'monospace' }}>
+                <h1 style={{fontSize: '16pt'}}>Biserica Elim Antwerpen</h1>
+                <h2 style={{fontSize: '12pt', fontFamily: 'monospace'}}>Presentations Generator</h2>
+                <div style={{fontSize: '12pt', fontFamily: 'monospace'}}>
+                    <h3>How this tool works</h3>
                     <p>Paragraph break = new slide.</p>
-                    <p>Enjoy and God bless you.</p>
+                    <p>Click 'Start Presentation' to start presentation in the browser in a new tab.
+                        You can control which slides is being displayed by clicking the button 'Previous' or 'Next' </p>
+                    <p>Click 'Export to Powerpoint' to export to Powerpoint.</p>
+                    <p>If you like this tool share it with others and follow us on instagram <a href="https://www.instagram.com/bisericaelimantwerpen/">bisericaelimantwerpen</a></p>
                 </div>
+                {slidesControl()}
                 <textarea
                     value={text}
                     onChange={handleChange}
                     placeholder="Paste your lyrics here"
-                    rows="10"
-                    style={{ width: '80%', marginBottom: '20px' }}
+                    rows="30"
+                    style={{width: '80%', marginBottom: '20px'}}
                 />
-                <button disabled={!text} onClick={handleStartPresentation}>Start Presentation</button>
-                <br />
-                <button disabled={!text} onClick={handlePrevSlide}>Previous</button>
-                <button disabled={!text} onClick={handleNextSlide}>Next</button>
-                <br />
-                <PowerPointExport text={text} />
+                {slidesControl()}
+
             </header>
-            <Footer />
+            <Footer/>
         </div>
     );
 }

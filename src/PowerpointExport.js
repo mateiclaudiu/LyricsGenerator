@@ -26,11 +26,11 @@ const PowerPointExport = ({text}) => {
 
             // Here, we'll implement a basic strategy to estimate the best font size.
             // This strategy is simplistic and you might need a more complex one based on actual text metrics.
-            let fontSize = 100; // Start with a large font size
+            let fontSize = 38; // Start with a large font size
             const lines = slideText.split('\n');
             lines.forEach((line) => {
                 // Calculate the reduction factor based on the line length, adjust the values as necessary
-                const reductionFactor = Math.max(line.length / 20, 1); // assuming 20 is the max length to fit the width at fontSize 100
+                const reductionFactor = Math.max(line.length / 35, 1); // assuming 20 is the max length to fit the width at fontSize 100
                 fontSize = Math.min(fontSize, 100 / reductionFactor); // adjust fontSize based on longest line
             });
             fontSize = Math.max(fontSize, 18); // Minimum font size, for readability
