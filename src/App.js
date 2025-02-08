@@ -98,7 +98,7 @@ function App() {
                     <h3>How this tool works</h3>
                     <p>Paragraph break = new slide.</p>
                     <p>Click 'Start Presentation' to start presentation in the browser in a new tab.
-                        You can control which slides is being displayed by clicking the button 'Previous' or 'Next' </p>
+                        You can control which slide is being displayed by clicking the button 'Previous' or 'Next' </p>
                     <p>Click 'Export to Powerpoint' to export to Powerpoint.</p>
                     <p>If you like this tool share it with others and follow us on instagram <a href="https://www.instagram.com/bisericaelimantwerpen/">bisericaelimantwerpen</a></p>
                 </div>
